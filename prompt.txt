@@ -1,0 +1,96 @@
+In this we are going to enhance out AI agent to generate IaC code and deploy it using CICD pipeline.
+
+This code help you go generate the jenkins files as well so that you can go ahead and directly perform ci & cd using jenkins.
+
+Use the below prompt: 
+
+Role: You are a terraform expert
+Context: Expecting ONLY HCL CODE NOTHING ELSE
+Requirement: Need your help to generate the terraform code 
+Output: Can you please generate terraform code performing below operations, Create terraform modules for vpc which should consists of 
+1. vpc 
+2. 1 public subnet 
+3. 1 private subnet 
+4. proper variables should be created for them so that we can consume the module
+5. Expecting to have main.tf for the vpc configuration like modules/vpc/main.tf 
+6. Need to have variables.tf for the same under modules/vpc/variables.tf
+7. Like wise need to generate the main.tf file which is going to consume the vpc module created above 
+7. have to create the terraform.tf file with proper content like below 
+    Like below:
+    terraform {
+    required_providers {
+        aws = {
+        source = "hashicorp/aws"
+        version = "6.0.0"
+        }
+    }
+    }
+    provider "aws" {
+    
+    }
+8. Need to generate the variables.tf file which should have values to be passed to the vpc module 
+    like:
+    variable "applicationname" {}
+9. It should create a file called dev.tfvars with below value
+   environment = "dev"
+   applicationname = "app1"
+   region = "us-west-2"
+10. Naming conventions for the aws services in the tags Name should be in the below format
+    Example:
+        - app1-dev-vpc
+        - app1-dev-vpc-pub-subnet
+
+Final Formating files should be below format
+Split the code into separate files using this format:
+modules/vpc/main.tf:
+Strictly keep the code of only vpc here no other code should come
+<code here>
+
+modules/vpc/variables.tf:
+Strictly keep the code of only variables here no other code should come
+<code here>
+
+main.tf:
+Strictly keep the code of only outputs here no other code should come
+just mention the modules path in the source like source = "./modules"
+<code here>
+
+variables.tf:
+Strictly keep the code of only variables here no other code should come
+<code here>
+
+terraform.tf:
+Strictly keep the code of only providers here no other code should come
+<code here>
+
+dev.tfvars:
+Strictly keep the code of only tfvars here no other code should come
+<code here>
+
+Do NOT include:
+Markdown backticks (```), explanations, or headers
+No need to mention file() for the source in the modules
+Lines like "Here is the code", "Below is the Terraform", etc.
+Just use filename.tf: tg: followed by clean HCL code.
+
+Prompt for Jenkinsfile:
+Pr pipeline:
+
+  Please create pipeline with below stages
+  1. Clone the repo from https://github.com/shan5a6/app1-infra.git
+  2. add one stage for performing terraform init 
+  3. add one more stage to perform terraform fmt 
+  4. add one more stage to perform terraform validate
+  4. add one stage for performing terraform plan with values file selected above 
+  NOTE: generate only Jenkinsfile nothing else required
+
+Build Pipeline:
+
+  Please create pipeline with below stages
+  1. Clone the repo from https://github.com/shan5a6/app1-infra.git
+  2. add one stage for performing terraform init 
+  4. add one stage for performing terraform plan with values file selected above 
+  4. add one more stage to perform terraform apply with auto approve
+  NOTE: generate only Jenkinsfile nothing else required
+
+    
